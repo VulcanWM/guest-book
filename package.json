@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "mongodb": "^5.1.0",
     "next": "12.2.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "swr": "^2.0.4"
   },
   "devDependencies": {
     "@types/node": "18.0.1",
