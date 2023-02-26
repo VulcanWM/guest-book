@@ -8,14 +8,14 @@ export default function HomePage({ allComments }) {
       <h1>VulcanWM's GuestBook</h1>
       <h3 className={styles.lightfont}>Say hello</h3>
       <form action='/api/comments' method='POST'>
-        <input name="User" id="title"></input>
+        <input name="User" id="title" required></input>
         <br/>
-        <label for="Body">Message</label>
+        <label htmlFor="Body">Message</label>
         <br/>
-        <input className={styles.message} name="Body"></input>
+        <input className={styles.message} name="Body" required></input>
         <button className={styles.send} type="submit">Send</button>
       </form>
-      <div className={styles.comments}>
+      <div id="comments" className={styles.comments}>
         {
           allComments['data'].map((key, index) => (
             <div id={index} className={styles.comment}>
