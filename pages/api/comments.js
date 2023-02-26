@@ -7,14 +7,15 @@ export default async function handler(req, res) {
   const db = client.db("comments");
   switch (req.method) {
     case "POST":
-      console.log(req.body)
+      const currentDate = new Date().toUTCString();
+      req.body['Created'] = currentDate
       let bodyObject = JSON.parse(JSON.stringify(req.body));
-      console.log(bodyObject)
-      let myComment = await db.collection("comments").insertOne(bodyObject);
+      await db.collection("comments").insertOne(bodyObject);
       res.redirect("/")
       break;
     case "GET":
       const allComments = await db.collection("comments").find({}).toArray();
+      allComments.reverse()
       res.json({ status: 200, data: allComments });
       break;
   }

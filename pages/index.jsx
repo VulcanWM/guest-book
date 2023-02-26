@@ -1,24 +1,28 @@
 import Layout from '../components/layout'
+import styles from '../styles/home.module.css'
 
 
 export default function HomePage({ allComments }) {
   return (
-    <div>
-      <Layout pageTitle="Home">
-        <h1>Hello</h1>
-        <form action='/api/comments' method='POST'>
-          <h2>Comment</h2>
-          <input name="User" id="title"></input>
-          <textarea name="Body"></textarea>
-          <button type="submit">Button</button>
-        </form>
+    <Layout pageTitle="Home">
+      <h1>VulcanWM's GuestBook</h1>
+      <form action='/api/comments' method='POST'>
+        <h2>Comment</h2>
+        <input name="User" id="title"></input>
+        <textarea name="Body"></textarea>
+        <button type="submit">Button</button>
+      </form>
+      <div className={styles.comments}>
         {
-          allComments['data'].map((key, index) => ( 
-            <p key={key['_id']}>{key['User']}: {key['Body']}</p> 
+          allComments['data'].map((key, index) => (
+            <div id={index} className={styles.comment}>
+              <p><strong>{key['User']}</strong> at <span className={styles.lightfont}>{key['Created']}</span></p> 
+              <p>{key['Body']}</p>
+            </div>
           ))
         }
-      </Layout>
-    </div>
+      </div>
+    </Layout>
   );
 }
 

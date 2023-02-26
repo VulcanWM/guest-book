@@ -1,0 +1,18 @@
+.comments {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment {
+  border: 2px solid var(--light-background);
+  padding: 5px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.lightfont {
+  color: var(--light-font)
+}
