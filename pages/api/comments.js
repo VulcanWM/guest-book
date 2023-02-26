@@ -1,4 +1,5 @@
 // posts.js
+var censorjs = require('censorjs');
 
 import clientPromise from "../../lib/mongodb";
 
@@ -9,6 +10,8 @@ export default async function handler(req, res) {
     case "POST":
       const currentDate = new Date().toUTCString();
       req.body['Created'] = currentDate
+      var cleaned = censorjs.clean(req.body['Body']);
+      req.body['Body'] = cleaned
       let bodyObject = JSON.parse(JSON.stringify(req.body));
       await db.collection("comments").insertOne(bodyObject);
       res.redirect("/")

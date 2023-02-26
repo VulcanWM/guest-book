@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "censorjs": "^1.1.1",
     "moment": "^2.29.4",
     "mongodb": "^5.1.0",
     "next": "12.2.0",
