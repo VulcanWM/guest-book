@@ -37,7 +37,7 @@ export default function HomePage({ allComments }) {
 }
 
 export async function getServerSideProps(context) {
-  let res = await fetch("/api/comments", {
+  let res = await fetch("https://vulcanwm-guestbook.vercel.app/api/comments", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
