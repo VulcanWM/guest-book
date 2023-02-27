@@ -37,7 +37,7 @@ export default function HomePage({ allComments }) {
 }
 
 export async function getServerSideProps(context) {
-  let res = await fetch("https://guest-book.vulcanwm.repl.co/api/comments", {
+  let res = await fetch("/api/comments", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
