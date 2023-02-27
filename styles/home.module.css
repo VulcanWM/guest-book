@@ -51,3 +51,7 @@
 .send:hover{
   border-color: var(--dark-accent);
 }
+
+.red {
+  color: var(--red);
+}

@@ -1,12 +1,19 @@
 import Layout from '../components/layout'
 import styles from '../styles/home.module.css'
+import { useRouter } from 'next/router'
 
 
 export default function HomePage({ allComments }) {
+  const router = useRouter()
+  const { msg } = router.query
   return (
     <Layout pageTitle="Home">
       <h1>VulcanWM's GuestBook</h1>
-      <h3 className={styles.lightfont}>Say hello</h3>
+      {msg ?
+        <h3 className={styles.red}>{msg}</h3>
+      :
+        <h3 className={styles.lightfont}>Say hello</h3>
+      }
       <form action='/api/comments' method='POST'>
         <input name="User" id="title" required></input>
         <br/>
