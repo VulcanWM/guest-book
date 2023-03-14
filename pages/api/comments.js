@@ -24,6 +24,12 @@ export default async function handler(req, res) {
       req.body['Created'] = currentDate
       var cleaned = censorjs.clean(req.body['Body']);
       req.body['Body'] = cleaned
+      if (req.body['User'].replace(" ", "") == ""){
+        res.redirect("/")
+        if (req.body['Body'].replace(" ", "") == ""){
+          res.redirect("/")
+        }
+      }
       let bodyObject = JSON.parse(JSON.stringify(req.body));
       await db.collection("comments").insertOne(bodyObject);
       cookies.set('timeset', currentDate, {
