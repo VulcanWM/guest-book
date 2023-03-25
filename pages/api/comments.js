@@ -24,9 +24,9 @@ export default async function handler(req, res) {
       req.body['Created'] = currentDate
       var cleaned = censorjs.clean(req.body['Body']);
       req.body['Body'] = cleaned
-      if (req.body['User'].replace(" ", "") == ""){
+      if (req.body['User'].replaceAll(" ", "") == ""){
         res.redirect("/")
-        if (req.body['Body'].replace(" ", "") == ""){
+        if (req.body['Body'].replaceAll(" ", "") == ""){
           res.redirect("/")
         }
       }
