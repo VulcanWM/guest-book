@@ -6,6 +6,14 @@ export default function LoginButton() {
     return (
       <>
         Signed in as {session.user.email} <br />
+        <form action='/api/comments' method='POST'>
+        <input name="User" id="title" required></input>
+        <br/>
+        <label htmlFor="Body">Message</label>
+        <br/>
+        <input className={styles.message} name="Body" required></input>
+        <button className={styles.send} type="submit">Send</button>
+      </form>
         <button onClick={() => signOut()}>Sign out</button>
       </>
     );

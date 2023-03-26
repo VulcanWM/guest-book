@@ -9,21 +9,21 @@ export default function HomePage({ allComments }) {
   const { msg } = router.query
   return (
     <Layout pageTitle="Home">
-      <LoginButton/>
       <h1>VulcanWM's GuestBook</h1>
       {msg ?
         <h3 className={styles.red}>{msg}</h3>
       :
         <h3 className={styles.lightfont}>Say hello</h3>
       }
-      <form action='/api/comments' method='POST'>
+      <LoginButton/>
+      {/* <form action='/api/comments' method='POST'>
         <input name="User" id="title" required></input>
         <br/>
         <label htmlFor="Body">Message</label>
         <br/>
         <input className={styles.message} name="Body" required></input>
         <button className={styles.send} type="submit">Send</button>
-      </form>
+      </form> */}
       <div id="comments" className={styles.comments}>
         {
           allComments['data'].map((key, index) => (
