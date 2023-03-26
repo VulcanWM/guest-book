@@ -1,9 +1,18 @@
 var censorjs = require('censorjs');
 import Cookies from 'cookies'
-
 import clientPromise from "../../lib/mongodb";
+import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { getServerSession } from "next-auth/next"
 
 export default async function handler(req, res) {
+  const session = await getServerSession(req, res, authOptions)
+  if (!session) {
+    res.redirect("/?msg=You have to be logged in to comment");
+    return;
+  }
+  console.log(session)
+  console.log(session.user)
+  console.log(session.user.image)
   const client = await clientPromise;
   const db = client.db("comments");
   switch (req.method) {
