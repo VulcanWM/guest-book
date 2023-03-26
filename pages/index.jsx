@@ -1,38 +1,59 @@
-import LoginButton from '../components/LoginButton'
-import Layout from '../components/layout'
-import styles from '../styles/home.module.css'
-import { useRouter } from 'next/router'
-
+import LoginButton from "../components/LoginButton";
+import Layout from "../components/layout";
+import styles from "../styles/home.module.css";
+import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from "next-auth/client";
 
 export default function HomePage({ allComments }) {
-  const router = useRouter()
-  const { msg } = router.query
+  const router = useRouter();
+  const { msg } = router.query;
+  const [session, loading] = useSession();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (session) {
+    return (
+      <div>
+        Signed in as {session.user.name} <br />
+        <button onClick={signOut}>Sign out</button>
+      </div>
+    );
+  }
+
   return (
     <Layout pageTitle="Home">
-      <LoginButton/>
+      <LoginButton />
       <h1>VulcanWM's GuestBook</h1>
-      {msg ?
+      {msg ? (
         <h3 className={styles.red}>{msg}</h3>
-      :
+      ) : (
         <h3 className={styles.lightfont}>Say hello</h3>
-      }
-      <form action='/api/comments' method='POST'>
+      )}
+      <form action="/api/comments" method="POST">
         <input name="User" id="title" required></input>
-        <br/>
+        <br />
         <label htmlFor="Body">Message</label>
-        <br/>
+        <br />
         <input className={styles.message} name="Body" required></input>
-        <button className={styles.send} type="submit">Send</button>
+        <button className={styles.send} type="submit">
+          Send
+        </button>
       </form>
       <div id="comments" className={styles.comments}>
-        {
-          allComments['data'].map((key, index) => (
-            <div id={index} className={styles.comment}>
-              <p><strong>{key['User']}</strong> at <span className={styles.lightfont}>{key['Created']}</span></p> 
-              <p>{key['Body']}</p>
-            </div>
-          ))
-        }
+        {allComments["data"].map((key, index) => (
+          <div id={index} className={styles.comment}>
+            <p>
+              <strong>{key["User"]}</strong> at{" "}
+              <span className={styles.lightfont}>{key["Created"]}</span>
+            </p>
+            <p>{key["Body"]}</p>
+          </div>
+        ))}
+      </div>
+      <div>
+        <button onClick={signIn}>Sign in with GitHub</button>
       </div>
     </Layout>
   );
