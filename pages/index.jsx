@@ -1,3 +1,4 @@
+import LoginButton from '../components/LoginButton'
 import Layout from '../components/layout'
 import styles from '../styles/home.module.css'
 import { useRouter } from 'next/router'
@@ -8,6 +9,7 @@ export default function HomePage({ allComments }) {
   const { msg } = router.query
   return (
     <Layout pageTitle="Home">
+      <LoginButton/>
       <h1>VulcanWM's GuestBook</h1>
       {msg ?
         <h3 className={styles.red}>{msg}</h3>
