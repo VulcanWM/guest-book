@@ -4,11 +4,10 @@ import styles from './LoginButton.module.css';
 export default function LoginButton() {
   const { data: session } = useSession();
   console.log(session.user)
-  console.log(session.user.username)
+  console.log(session.user.email)
   if (session) {
     return (
       <>
-        {session.user.username}
         Signed in as {session.user.email} <br />
         <form action='/api/comments' method='POST'>
         <input name="User" id="title" required></input>
