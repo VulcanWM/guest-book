@@ -7,7 +7,6 @@ import { getServerSession } from "next-auth/next"
 export default async function handler(req, res) {
   const client = await clientPromise;
   const db = client.db("comments");
-  console.log(req.method)
   if (req.method == "GET"){
     const allComments = await db.collection("comments").find({}).toArray();
     allComments.reverse()
