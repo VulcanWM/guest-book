@@ -1,7 +1,7 @@
 var censorjs = require('censorjs');
 import Cookies from 'cookies'
 import clientPromise from "../../lib/mongodb";
-import { authOptions } from 'pages/api/auth/[...nextauth]'
+import { authOptions } from './/auth/[...nextauth]'
 import { getServerSession } from "next-auth/next"
 
 export default async function handler(req, res) {
