@@ -8,9 +8,9 @@ export default function LoginButton() {
     var userId = session.user.image.split("/u/")[1]
     userId = userId.split("?v=")[0]
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "https://api.github.com/user/" + userId, true ); 
+    xmlHttp.open( "GET", "https://api.github.com/user/" + userId, false ); 
     xmlHttp.send( null );
-    var username = xmlHttp.responseText.login
+    var username = JSON.parse(xmlHttp.responseText).login
     return (
       <>
         Signed in as {username} <br />
