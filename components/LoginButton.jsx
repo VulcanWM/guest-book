@@ -7,7 +7,7 @@ export default function LoginButton() {
     return (
       <>
         {session.user}
-        {sesion.user.username}
+        {session.user.username}
         Signed in as {session.user.email} <br />
         <form action='/api/comments' method='POST'>
         <input name="User" id="title" required></input>
