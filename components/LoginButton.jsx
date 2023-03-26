@@ -3,8 +3,6 @@ import styles from './LoginButton.module.css';
 
 export default function LoginButton() {
   const { data: session } = useSession();
-  console.log(session.user)
-  console.log(session.user.email)
   if (session) {
     return (
       <>
