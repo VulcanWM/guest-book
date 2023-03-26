@@ -48,6 +48,45 @@
   font-size: 17px;
 }
 
+.signIn{
+  position: relative;
+  align-self: auto;
+  margin-left: 4px;
+  margin-top: 4px;
+  padding: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 15px;
+  background-color: transparent;
+  color: var(--font-color);
+  cursor: pointer;
+  border: 4px solid rgb(16, 237, 16);
+  transition: 0.2s;
+  font-size: 17px;
+}
+
+.signOut{
+  position: relative;
+  align-self: auto;
+  margin-left: 4px;
+  margin-top: 4px;
+  padding: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 15px;
+  background-color: transparent;
+  color: var(--font-color);
+  cursor: pointer;
+  border: 2px solid red;
+  transition: 0.2s;
+  font-size: 17px;
+}
+
+.ghpic{
+  width: 45px;
+  border-radius: 30px;
+}
+
 .send:hover{
   border-color: var(--dark-accent);
 }

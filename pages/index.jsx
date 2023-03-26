@@ -1,14 +1,20 @@
 import Layout from '../components/layout'
 import styles from '../styles/home.module.css'
 import { useRouter } from 'next/router'
+import LoginButton from '../components/LoginButton'
+import{useSession} from 'next-auth/react'
 
 
 export default function HomePage({ allComments }) {
   const router = useRouter()
   const { msg } = router.query
+  // const {data:session} = useSession({required: true}) // to make login on github compulsary remove comment on the line
   return (
     <Layout pageTitle="Home">
+      {/* component based implementation */}
+      <LoginButton/> 
       <h1>VulcanWM's GuestBook</h1>
+  
       {msg ?
         <h3 className={styles.red}>{msg}</h3>
       :
