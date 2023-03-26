@@ -1,6 +1,7 @@
 import Layout from '../components/layout'
 import styles from '../styles/home.module.css'
 import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/react'
 
 
 export default function HomePage({ allComments }) {
@@ -37,6 +38,16 @@ export default function HomePage({ allComments }) {
 }
 
 export async function getServerSideProps(context) {
+  const session = await getSession(context)
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
   let res = await fetch("https://vulcanwm-guestbook.vercel.app/api/comments", {
     method: "GET",
     headers: {
