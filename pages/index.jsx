@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 export default function HomePage({ allComments }) {
   const router = useRouter()
   const { msg } = router.query
+  const {data:session} = useSession({required: true})
   return (
     <Layout pageTitle="Home">
       <h1>VulcanWM's GuestBook</h1>
