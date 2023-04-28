@@ -25,3 +25,21 @@ strong {
   font-weight: bold; 
   color: var(--light-accent);
 }
+
+button{
+  margin-left: 4px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 15px;
+  background-color: transparent;
+  color: var(--font-color);
+  cursor: pointer;
+  border: 2px solid var(--primary);
+  transition: 0.2s;
+  font-size: 17px;
+}
+
+button:hover{
+  border-color: var(--dark-accent);
+}
