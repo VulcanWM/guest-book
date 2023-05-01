@@ -1,10 +1,12 @@
 var censorjs = require('censorjs');
 import Cookies from 'cookies'
 import clientPromise from "../../lib/mongodb";
-import { authOptions } from './/auth/[...nextauth]'
+import { authOptions } from './auth/[...nextauth]';
 import { getServerSession } from "next-auth/next"
 
 export default async function handler(req, res) {
+  const session = await getServerSession(req, res, authOptions)
+  const cookies = new Cookies(req, res)
   const client = await clientPromise;
   const db = client.db("comments");
   if (req.method == "GET"){
@@ -12,15 +14,17 @@ export default async function handler(req, res) {
     allComments.reverse()
     res.json({ status: 200, data: allComments });
   } else if (req.method == 'POST') {
-    const session = await getServerSession(req, res, authOptions)
     if (!session) {
       res.redirect("/?msg=You have to be logged in to comment");
+      return;
     }
-    console.log(session)
-    console.log(session.user)
-    console.log(session.user.image)
+    const userid = session.user.image.replace("https://avatars.githubusercontent.com/u/", "").replace("?v=4", "")
+    const resp = await fetch(
+      `https://api.github.com/user/${userid}`
+    );
+    const data = await resp.json();
+    const username = data['login']
     const currentDate = new Date().toUTCString();
-    const cookies = new Cookies(req, res)
     if (cookies.get('timeset') == null){
       // no cookie set
     } else {
@@ -29,18 +33,17 @@ export default async function handler(req, res) {
       var hours = Math.abs(datenow - datethen) / 36e5;
       if (hours < 1){
         res.redirect("/?msg=You can only message once an hour")
+        return;
       }
     }
-    req.body['Created'] = currentDate
     var cleaned = censorjs.clean(req.body['Body']);
-    req.body['Body'] = cleaned
-    if (req.body['User'].replaceAll(" ", "") == ""){
+    if (username.replaceAll(" ", "") == ""){
       res.redirect("/")
-      if (req.body['Body'].replaceAll(" ", "") == ""){
+      if (cleaned.replaceAll(" ", "") == ""){
         res.redirect("/")
       }
     }
-    let bodyObject = JSON.parse(JSON.stringify(req.body));
+    let bodyObject = {"Body": cleaned, "User": username, "Created": currentDate}
     await db.collection("comments").insertOne(bodyObject);
     cookies.set('timeset', currentDate, {
       httpOnly: true
