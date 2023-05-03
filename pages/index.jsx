@@ -34,15 +34,13 @@ export default function HomePage({ allComments }) {
       ) : (
           <>
             <h4>Signed in as {username}</h4>
+            <button onClick={() => signOut()}>Sign out</button><br/><br/>
             <form action='/api/comments' method='POST'>
-              <input name="User" id="title" value={username} required></input>
-              <br/>
               <label htmlFor="Body">Message</label>
               <br/>
               <input className={styles.message} name="Body" required></input>
               <button className={styles.send} type="submit">Send</button>
             </form>
-            <button onClick={() => signOut()}>Sign out</button>
           </>
           )}
       {/* <LoginButton/> */}
