@@ -8,10 +8,9 @@ import admins from '../lib/admins';
 export default function HomePage({ allComments }) {
   const router = useRouter()
   const { msg } = router.query
-  const { data: session } = useSession();
+  const { data: session } = useSession({required: true})
   var username;
   if (session) {
-    console.log(session.user)
     var userId = session.user.image.split("/u/")[1]
     userId = userId.split("?v=")[0]
     var xmlHttp = new XMLHttpRequest();
