@@ -37,11 +37,8 @@ export default async function handler(req, res) {
       }
     }
     var cleaned = censorjs.clean(req.body['Body']);
-    if (username.replaceAll(" ", "") == ""){
+    if (cleaned.replaceAll(" ", "") == ""){
       res.redirect("/")
-      if (cleaned.replaceAll(" ", "") == ""){
-        res.redirect("/")
-      }
     }
     let bodyObject = {"Body": cleaned, "User": username, "Created": currentDate}
     await db.collection("comments").insertOne(bodyObject);
