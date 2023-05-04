@@ -3,7 +3,7 @@ import Layout from '../components/layout'
 import styles from '../styles/home.module.css'
 import { useRouter } from 'next/router'
 import { useSession, signIn, signOut } from "next-auth/react";
-
+import admins from '../lib/admins';
 
 export default function HomePage({ allComments }) {
   const router = useRouter()
@@ -50,11 +50,14 @@ export default function HomePage({ allComments }) {
             <div id={index} className={styles.comment}>
               <p><strong>{key['User']}</strong> at <span className={styles.lightfont}>{key['Created']}</span></p> 
               <p>{key['Body']}</p>
-              {username != null && key['User'] == username ? 
+              {username != null ? 
               <>
-              <form action={'/api/delete_comment?comment_id=' + key['_id']} method='POST'>
-                <button className={styles.send} type="submit">delete comment</button>
-              </form>
+              {key['User'] == username || admins.includes(username) ?
+                <form action={'/api/delete_comment?comment_id=' + key['_id']} method='POST'>
+                  <button className={styles.send} type="submit">delete comment</button>
+                </form>
+              :<></>
+              }
               </>
               :
               <></>}
