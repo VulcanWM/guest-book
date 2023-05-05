@@ -19,11 +19,16 @@ export default async function handler(req, res) {
       return;
     }
     const userid = session.user.image.replace("https://avatars.githubusercontent.com/u/", "").replace("?v=4", "")
-    const resp = await fetch(
-      `https://api.github.com/user/${userid}`
-    );
-    const data = await resp.json();
-    const username = data['login']
+    var username;
+    if (cookies.get("Username")){
+      username = cookies.get("Username");
+    } else {
+      const resp = await fetch(
+        `https://api.github.com/user/${userid}`
+      );
+      const data = await resp.json();
+      username = data['login']
+    }
     const currentDate = new Date().toUTCString();
     const user_comments = await db.collection("comments").find({"UserId": userid}).toArray();
     if (user_comments.length == 0){
@@ -43,9 +48,6 @@ export default async function handler(req, res) {
     }
     let bodyObject = {"Body": cleaned, "User": username, "Created": currentDate, "UserId": userid}
     await db.collection("comments").insertOne(bodyObject);
-    // cookies.set('timeset', currentDate, {
-    //   httpOnly: true
-    // })
     res.redirect("/")
   }
 }

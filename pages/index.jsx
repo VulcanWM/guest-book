@@ -4,21 +4,24 @@ import styles from '../styles/home.module.css'
 import { useRouter } from 'next/router'
 import { useSession, signIn, signOut } from "next-auth/react";
 import admins from '../lib/admins';
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "./api/auth/[...nextauth]";
+import Cookies from 'cookies'
 
-export default function HomePage({ allComments }) {
+export default function HomePage({ allComments, username, userId }) {
   const router = useRouter()
   const { msg } = router.query
   const { data: session } = useSession({required: true})
-  var username;
-  var userId;
-  if (session) {
-    userId = session.user.image.split("/u/")[1]
-    userId = userId.split("?v=")[0]
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", "https://api.github.com/user/" + userId, false ); 
-    xmlHttp.send( null );
-    username = JSON.parse(xmlHttp.responseText).login
-  }
+  // var username;
+  // var userId;
+  // if (session) {
+  //   userId = session.user.image.split("/u/")[1]
+  //   userId = userId.split("?v=")[0]
+  //   var xmlHttp = new XMLHttpRequest();
+  //   xmlHttp.open( "GET", "https://api.github.com/user/" + userId, false ); 
+  //   xmlHttp.send( null );
+  //   username = JSON.parse(xmlHttp.responseText).login
+  // }
   return (
     <Layout pageTitle="Home">
       <h1>VulcanWM's GuestBook</h1>
@@ -76,7 +79,25 @@ export async function getServerSideProps(context) {
     },
   });
   let allComments = await res.json();
+  const session = await getServerSession(context.req, context.res, authOptions)
+  var username;
+  var userId;
+  if (session) {
+    userId = session.user.image.split("/u/")[1]
+    userId = userId.split("?v=")[0]
+    const cookies = new Cookies(context.req, context.res)
+    if (cookies.get("Username")){
+      username = cookies.get("Username")
+    } else {
+      const resp = await fetch(
+        `https://api.github.com/user/${userId}`
+      );
+      const data = await resp.json();
+      username = data['login']
+      cookies.set('Username', username)
+    }
+  }
   return {
-    props: { allComments },
+    props: { allComments, username, userId },
   };
 }
