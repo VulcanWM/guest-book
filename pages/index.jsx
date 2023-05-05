@@ -10,8 +10,9 @@ export default function HomePage({ allComments }) {
   const { msg } = router.query
   const { data: session } = useSession({required: true})
   var username;
+  var userId;
   if (session) {
-    var userId = session.user.image.split("/u/")[1]
+    userId = session.user.image.split("/u/")[1]
     userId = userId.split("?v=")[0]
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "https://api.github.com/user/" + userId, false ); 
@@ -42,7 +43,6 @@ export default function HomePage({ allComments }) {
             </form>
           </>
           )}
-      {/* <LoginButton/> */}
       <div id="comments" className={styles.comments}>
         {
           allComments['data'].map((key, index) => (
@@ -51,7 +51,7 @@ export default function HomePage({ allComments }) {
               <p>{key['Body']}</p>
               {username != null ? 
               <>
-              {key['User'] == username || admins.includes(username) ?
+              {key['UserId'] == userId || admins.includes(userId) ?
                 <form action={'/api/delete_comment?comment_id=' + key['_id']} method='POST'>
                   <button className={styles.send} type="submit">delete comment</button>
                 </form>

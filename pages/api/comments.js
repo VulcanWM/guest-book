@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     if (cleaned.replaceAll(" ", "") == ""){
       res.redirect("/")
     }
-    let bodyObject = {"Body": cleaned, "User": username, "Created": currentDate}
+    let bodyObject = {"Body": cleaned, "User": username, "Created": currentDate, "UserId": userid}
     await db.collection("comments").insertOne(bodyObject);
     cookies.set('timeset', currentDate, {
       httpOnly: true
