@@ -17,11 +17,6 @@ export default async function handler(req, res) {
       return;
     }
     const userid = session.user.image.replace("https://avatars.githubusercontent.com/u/", "").replace("?v=4", "")
-    // const resp = await fetch(
-    //   `https://api.github.com/user/${userid}`
-    // );
-    // const data = await resp.json();
-    // const username = data['login']
     const comment_id = req.query["comment_id"]
     const comments = await db.collection("comments").find({"_id": new ObjectId(comment_id)}).toArray();
     if (comments.length != 0){

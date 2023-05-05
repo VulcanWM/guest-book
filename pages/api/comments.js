@@ -25,11 +25,12 @@ export default async function handler(req, res) {
     const data = await resp.json();
     const username = data['login']
     const currentDate = new Date().toUTCString();
-    if (cookies.get('timeset') == null){
-      // no cookie set
+    const user_comments = await db.collection("comments").find({"UserId": userid}).toArray();
+    if (user_comments.length == 0){
+      // no comments sent
     } else {
       var datenow = new Date(Date.parse(currentDate));
-      var datethen = new Date(Date.parse(cookies.get('timeset')));
+      var datethen = new Date(Date.parse(user_comments.at(-1)['Created']));
       var hours = Math.abs(datenow - datethen) / 36e5;
       if (hours < 1){
         res.redirect("/?msg=You can only message once an hour")
@@ -42,9 +43,9 @@ export default async function handler(req, res) {
     }
     let bodyObject = {"Body": cleaned, "User": username, "Created": currentDate, "UserId": userid}
     await db.collection("comments").insertOne(bodyObject);
-    cookies.set('timeset', currentDate, {
-      httpOnly: true
-    })
+    // cookies.set('timeset', currentDate, {
+    //   httpOnly: true
+    // })
     res.redirect("/")
   }
 }
