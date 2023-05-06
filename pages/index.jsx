@@ -2,7 +2,7 @@
 import Layout from '../components/layout'
 import styles from '../styles/home.module.css'
 import { useRouter } from 'next/router'
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import admins from '../lib/admins';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "./api/auth/[...nextauth]";
@@ -12,16 +12,6 @@ export default function HomePage({ allComments, username, userId }) {
   const router = useRouter()
   const { msg } = router.query
   const { data: session } = useSession({required: true})
-  // var username;
-  // var userId;
-  // if (session) {
-  //   userId = session.user.image.split("/u/")[1]
-  //   userId = userId.split("?v=")[0]
-  //   var xmlHttp = new XMLHttpRequest();
-  //   xmlHttp.open( "GET", "https://api.github.com/user/" + userId, false ); 
-  //   xmlHttp.send( null );
-  //   username = JSON.parse(xmlHttp.responseText).login
-  // }
   return (
     <Layout pageTitle="Home">
       <h1>VulcanWM's GuestBook</h1>
@@ -37,7 +27,6 @@ export default function HomePage({ allComments, username, userId }) {
       ) : (
           <>
             <h4>Signed in as {username}</h4>
-            <button onClick={() => signOut()}>Sign out</button><br/><br/>
             <form action='/api/comments' method='POST'>
               <label htmlFor="Body">Message</label>
               <br/>
