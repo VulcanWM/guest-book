@@ -1,4 +1,3 @@
-var censorjs = require('censorjs');
 import Cookies from 'cookies'
 import clientPromise from "../../lib/mongodb";
 import admins from "../../lib/admins";
@@ -8,7 +7,6 @@ import { ObjectId } from 'mongodb'
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions)
-  const cookies = new Cookies(req, res)
   const client = await clientPromise;
   const db = client.db("comments");
   if (req.method == 'POST') {

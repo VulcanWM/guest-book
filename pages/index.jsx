@@ -1,4 +1,3 @@
-// import LoginButton from '../components/LoginButton'
 import Layout from '../components/layout'
 import styles from '../styles/home.module.css'
 import { useRouter } from 'next/router'
